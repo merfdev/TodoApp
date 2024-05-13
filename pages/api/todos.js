@@ -1,5 +1,7 @@
 import User from "@/models/User";
 import connectDB from "@/utils/connectDB";
+import { sortTodos } from "@/utils/sortTodos";
+
 import { getSession } from "next-auth/react";
 
 async function handler(req, res) {
@@ -11,9 +13,10 @@ async function handler(req, res) {
       .status(500)
       .json({ status: "failed", message: "not connecting to DB" });
   }
-  const { session } = req.body;
-  //   const session = await getSession({ req });
-  //   console.log(session);
+  const secret = process.env.SECRET_KEY;
+  const session = await getSession({ req });
+
+  console.log(session);
   if (!session) {
     return res
       .status(401)
@@ -25,6 +28,7 @@ async function handler(req, res) {
       .status(404)
       .json({ status: "failed", message: "user not found" });
   }
+
   if (req.method === "POST") {
     const { title, status } = req.body;
     if (!title || !status) {
@@ -35,8 +39,9 @@ async function handler(req, res) {
     user.todos.push({ title, status });
     user.save();
     res.status(201).json({ status: "success", message: "todo create" });
-  }else if(req.method === "GET"){
-    
+  } else if (req.method === "GET") {
+    const sortedData = sortTodos(user.todos);
+    res.status(200).json({ status: "success", data: { todos: sortedData } });
   }
 }
 export default handler;

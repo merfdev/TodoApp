@@ -8,14 +8,13 @@ import RadioButton from "../element/RadioButton";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
-function AddTodoPage({ session }) {
-  console.log(session);
+function AddTodoPage() {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("todo");
   const addHandler = async () => {
     const res = await fetch("/api/todos", {
       method: "POST",
-      body: JSON.stringify({ title, status, session }),
+      body: JSON.stringify({ title, status }),
       headers: { "Content-Type": "application/json" },
     });
     const data = await res.json();
