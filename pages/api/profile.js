@@ -28,10 +28,15 @@ async function handler(req, res) {
         .status(422)
         .json({ status: "failed", message: "passwrod is incorrect" });
     }
+    user.name = name;
+    user.lastName = lastName;
+    user.save();
+    res.status(200).json({ status: "success", message: "Profile update" });
+  } else if (req.method === "GET") {
+    res.status(200).json({
+      status: "success",
+      data: { name: user.name, lastName: user.lastName, email: user.email },
+    });
   }
-  user.name = name;
-  user.lastName = lastName;
-  user.save();
-  res.status(200).json({ status: "success", message: "Profile update" });
 }
 export default handler;
