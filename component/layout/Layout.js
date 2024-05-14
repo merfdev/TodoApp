@@ -23,7 +23,7 @@ function Layout({ children }) {
             </li>
             <li>
               <RxDashboard />
-              <Link href="/">Profile</Link>
+              <Link href="/profile">Profile</Link>
             </li>
           </ul>
         </aside>
