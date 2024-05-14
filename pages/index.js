@@ -18,8 +18,9 @@ export async function getServerSideProps({ req }) {
         permanent: false,
       },
     };
-    return {
-      props: {},
-    };
+    
   }
+  return {
+    props: {},
+  };
 }
